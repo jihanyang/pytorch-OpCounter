@@ -1,5 +1,5 @@
 from .utils import clever_format
-from .profile import profile, profile_origin
+from .profile import profile, profile_origin, profile_acts
 from .onnx_profile import OnnxProfile
 import torch
 

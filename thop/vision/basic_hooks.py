@@ -45,6 +45,8 @@ def count_convNd(m: _ConvNd, x: (torch.Tensor,), y: torch.Tensor):
         m.groups,
     )
 
+    m.total_acts += y.nelement()
+
 
 def count_convNd_ver2(m: _ConvNd, x: (torch.Tensor,), y: torch.Tensor):
     x = x[0]
@@ -109,6 +111,7 @@ def count_avgpool(m, x, y):
     # kernel_ops = total_add + total_div
     num_elements = y.numel()
     m.total_ops += counter_avgpool(num_elements)
+    m.total_acts += num_elements
 
 
 def count_adap_avgpool(m, x, y):
@@ -118,6 +121,7 @@ def count_adap_avgpool(m, x, y):
     total_add = torch.prod(kernel)
     num_elements = y.numel()
     m.total_ops += counter_adap_avg(total_add, num_elements)
+    m.total_acts += num_elements
 
 
 # TODO: verify the accuracy
@@ -147,3 +151,5 @@ def count_linear(m, x, y):
     num_elements = y.numel()
 
     m.total_ops += counter_linear(total_mul, num_elements)
+
+    m.total_acts += num_elements
